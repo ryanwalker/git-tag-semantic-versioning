@@ -30,5 +30,5 @@ esac
 
 NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
 
-git tag -am "v$MAJOR.$MINOR.$PATCH" "v$MAJOR.$MINOR.$PATCH"
-echo "Version changed from $CURRENT_VERSION to $NEW_VERSION"
+#git tag -am "v$MAJOR.$MINOR.$PATCH" "v$MAJOR.$MINOR.$PATCH"
+echo "v$MAJOR.$MINOR.$PATCH"
