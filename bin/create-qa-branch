@@ -6,7 +6,9 @@ git checkout develop
 git pull
 git checkout -b qa
 git push -u origin qa
+echo "#############################################"
 echo "qa branch created"
+echo "#############################################"
 
 
 git checkout develop
@@ -14,4 +16,6 @@ NEW_VERSION=`./bin/bump-version "MINOR"`
 git tag -a ${NEW_VERSION} -m "${NEW_VERSION}"
 git push --tags
 
+echo "#############################################"
 echo "develop branch now at version ${NEW_VERSION}"
+echo "#############################################"
