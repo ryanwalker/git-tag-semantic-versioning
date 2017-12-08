@@ -12,7 +12,13 @@ echo "#############################################"
 
 git checkout develop
 NEW_VERSION=`./bin/bump-version "MINOR"`
+
+echo "1"
+
 echo "$NEW_VERSION" >> .tags
+
+echo "2"
+
 git add .tags
 git commit -m "$NEW_VERSION"
 git tag -am ${NEW_VERSION}
