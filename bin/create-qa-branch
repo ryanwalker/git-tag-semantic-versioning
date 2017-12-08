@@ -8,6 +8,6 @@ git checkout -b qa
 git push -u origin qa
 
 git checkout develop
-NEW_VERSION=./bump_version "MINOR"
+NEW_VERSION=./bin/bump_version "MINOR"
 git tag -a ${NEW_VERSION} -m "${NEW_VERSION}"
 git push --tags
