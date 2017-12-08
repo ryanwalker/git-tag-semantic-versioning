@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+git checkout develop
+git branch -D qa
+git push origin :qa
