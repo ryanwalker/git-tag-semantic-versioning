@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # Commit and tag qa
+git checkout qa
+
 NEW_VERSION=`./bin/bump-patch-version`
 
 echo "$NEW_VERSION" >> .tags
