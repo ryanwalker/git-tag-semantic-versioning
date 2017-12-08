@@ -2,6 +2,11 @@
 
 set -e
 
+if [ "$1" != "FORCE" ]; then
+    echo "THIS COMMAND WILL DESTROY qa on GitHub. Please run './nuke-qa-branch FORCE' to proceed"
+    exit 1
+fi
+
 git checkout develop
 git branch -D qa
 git push origin :qa
