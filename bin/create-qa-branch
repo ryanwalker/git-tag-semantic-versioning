@@ -17,7 +17,7 @@ echo "$NEW_VERSION" >> .tags
 
 git add .tags
 git commit -m "$NEW_VERSION"
-git tag -am $NEW_VERSION" ${NEW_VERSION}"
+git tag -am $NEW_VERSION ${NEW_VERSION}"
 git push
 git push --tags
 
