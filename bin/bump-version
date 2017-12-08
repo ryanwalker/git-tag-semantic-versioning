@@ -27,4 +27,4 @@ case "$1" in
     ;;
 esac
 
-echo "v$MAJOR.$MINOR.$PATCH"
+git tag -am "v$MAJOR.$MINOR.$PATCH" "v$MAJOR.$MINOR.$PATCH"
