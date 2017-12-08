@@ -1,3 +1,16 @@
 #!/usr/bin/env bash
 
-git describe | sed -E 's/(v[0-9]+\.[0-9]+\.[0-9]+).*/\1/'
+# Commit and tag qa
+NEW_VERSION=`./bin/bump-patch-version`
+
+echo "$NEW_VERSION" >> .tags
+
+git add .tags
+git commit -m "$NEW_VERSION"
+git tag -am $NEW_VERSION "${NEW_VERSION}"
+git push
+git push --tags
+
+git checkout master
+git pull
+git merge qa

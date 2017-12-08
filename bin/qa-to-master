@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+# commit patch
+# merge to master
