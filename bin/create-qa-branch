@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+git checkout develop
+git pull
+git checkout -b qa
+git push -u origin qa
+
+git checkout develop
+NEW_VERSION=./bump_version "MINOR"
+git tag -a ${NEW_VERSION} -m "${NEW_VERSION}"
+git push --tags
