@@ -11,7 +11,7 @@ echo "qa branch created"
 echo "#############################################"
 
 git checkout develop
-NEW_VERSION=`./bin/current-version`
+NEW_VERSION=`./bin/bump-version "MINOR"`
 
 echo "$NEW_VERSION" >> .tags
 
