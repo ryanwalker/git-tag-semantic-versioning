@@ -1,0 +1,10 @@
+class Version extends DefaultTask {
+    @TaskAction
+    def printMessage() {
+      def tag = ['sh', '-c', 'git describe'].execute().text.trim()
+      print tag
+    }
+}
+
+task currentVersion(type: Version)
+
