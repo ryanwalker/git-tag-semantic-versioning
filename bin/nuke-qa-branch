@@ -3,7 +3,8 @@
 set -e
 
 if [ "$1" != "FORCE" ]; then
-    echo "THIS COMMAND WILL DESTROY qa on GitHub. Please run './nuke-qa-branch FORCE' to proceed"
+    echo "THIS COMMAND WILL DESTROY THE qa BRANCH ON GitHub."
+    echo "Please run 'nuke-qa-branch FORCE' to proceed"
     exit 1
 fi
 
