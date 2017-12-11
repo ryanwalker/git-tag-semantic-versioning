@@ -5,7 +5,7 @@ set -e
 git checkout develop
 git pull
 
-RELEASE_BRANCH=`git desgit describe --match "release-branch-*"`
+RELEASE_BRANCH=`git describe --match "release-branch-*"`
 echo $RELEASE_BRANCH
 # git checkout -b qa
 # git push -u origin qa
