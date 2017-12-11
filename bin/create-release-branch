@@ -5,8 +5,10 @@ set -e
 git checkout develop
 git pull
 
-RELEASE_BRANCH=`git describe --match "release-branch-*"`
-echo $RELEASE_BRANCH
+CURRENT_RELEASE_BRANCH_TAG=`git describe --match "release-branch-*"`
+CURRENT_RELEASE_BRANCH=`echo "$CURRENT_RELEASE_BRANCH_TAG | sed -E "s/(release-branch-[0-9])+./\1/"`
+
+echo $CURRENT_RELEASE_BRANCH
 # git checkout -b qa
 # git push -u origin qa
 #
