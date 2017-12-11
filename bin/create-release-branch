@@ -16,24 +16,26 @@ echo $CURRENT_RELEASE_BRANCH
 echo $NEW_RELEASE_BRANCH
 
 git checkout -b $NEW_RELEASE_BRANCH
-# git push -u origin qa
+git push -u origin $NEW_RELEASE_BRANCH
 #
 #
 # echo "#############################################"
-# echo "qa branch created"
+# echo "Release branch created: $RELEASE_BRANCH\
 # echo "#############################################"
 #
+
+# Commit and bump version of develop
 git checkout develop
 NEW_VERSION=`./bin/next-version ALPHA MINOR`
 echo "New version will be $NEW_VERSION"
-# echo "$NEW_VERSION" >> .tags
-#
-# git add .tags
-# git commit -m "$NEW_VERSION"
-# git tag -am $NEW_VERSION "${NEW_VERSION}"
+echo "$NEW_VERSION" >> .tags
+
+git add .tags
+git commit -m "$NEW_VERSION"
+git tag -am $NEW_VERSION "${NEW_VERSION}"
 # git push
 # git push --tags
 #
-# echo "#############################################"
-# echo "develop branch now at version ${NEW_VERSION}"
-# echo "#############################################"
+echo "#############################################"
+echo "develop branch now at version ${NEW_VERSION}"
+echo "#############################################"
