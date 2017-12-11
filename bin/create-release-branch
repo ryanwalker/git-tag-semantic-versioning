@@ -6,7 +6,10 @@ git checkout develop
 git pull
 
 CURRENT_RELEASE_BRANCH_TAG=`git describe --match "release-branch-*"`
-CURRENT_RELEASE_BRANCH=`echo "$CURRENT_RELEASE_BRANCH_TAG | sed -E "s/(release-branch-[0-9])+./\1/"`
+CURRENT_RELEASE_BRANCH=`echo "$CURRENT_RELEASE_BRANCH_TAG" | sed -E "s/(release-branch-[0-9])+./\1/"`
+
+# MAJOR=`echo "$CURRENT_VERSION" | sed -E "s/v([0-9]+)\.[0-9]+\.[0-9]+.*/\1/"`
+
 
 echo $CURRENT_RELEASE_BRANCH
 # git checkout -b qa
