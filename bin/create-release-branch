@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+git checkout develop
+git pull
+
+RELEASE_BRANCH=`git desgit describe --match "release-branch-*"`
+echo $RELEASE_BRANCH
+# git checkout -b qa
+# git push -u origin qa
+#
+#
+# echo "#############################################"
+# echo "qa branch created"
+# echo "#############################################"
+#
+# git checkout develop
+# NEW_VERSION=`./bin/bump-minor-version`
+# echo "New version will be $NEW_VERSION"
+# echo "$NEW_VERSION" >> .tags
+#
+# git add .tags
+# git commit -m "$NEW_VERSION"
+# git tag -am $NEW_VERSION "${NEW_VERSION}"
+# git push
+# git push --tags
+#
+# echo "#############################################"
+# echo "develop branch now at version ${NEW_VERSION}"
+# echo "#############################################"
