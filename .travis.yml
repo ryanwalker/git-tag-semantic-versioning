@@ -1,2 +1,68 @@
+sudo: required
+cache:
+  directories:
+  - "$HOME/.m2"
+language: java
+services:
+- docker
+jdk:
+- oraclejdk8
+before_install:
+- sudo /etc/init.d/mysql stop
+- docker-compose up -d
+- pip install awscli --upgrade --user
+env:
+- ELASTIC_BEANSTALK_LABEL="travis-$TRAVIS_BUILD_NUMBER"
 script:
-- echo $QA_BRANCH
+- ./mvnw verify -B -U
+- ./mvnw test
+before_deploy:
+- mv target/tenant-server-*.jar web.jar
+- zip -r bundle.zip Procfile web.jar .ebextensions
+- git tag -a -m $ELASTIC_BEANSTALK_LABEL $ELASTIC_BEANSTALK_LABEL
+- git push --tags
+- ./bin/deployment_notification
+deploy:
+  - provider: elasticbeanstalk
+    region: us-east-1
+    app: tenant-dev-api
+    env: TenantDevApi-env
+    bucket_name: nexus.kubra.io
+    bucket_path: travis-builds/tenant-api
+    skip_cleanup: true
+    zip_file: bundle.zip
+    on:
+      repo: iFactor/tenant-api
+      branch: develop
+  - provider: elasticbeanstalk
+    region: us-east-1
+    app: tenant-qa-api
+    env: TenantQAApi-env
+    bucket_name: nexus.kubra.io
+    bucket_path: travis-builds/tenant-api
+    skip_cleanup: true
+    zip_file: bundle.zip
+    on:
+      repo: iFactor/tenant-api
+      condition: '"$TRAVIS_BRANCH" == "QA_BRANCH"'
+  - provider: elasticbeanstalk
+    region: us-east-1
+    app: tenant-test-api
+    env: TenantTestApi-env
+    bucket_name: nexus.kubra.io
+    bucket_path: travis-builds/tenant-api
+    skip_cleanup: true
+    zip_file: bundle.zip
+    on:
+      repo: iFactor/tenant-api
+      condition: '"$TRAVIS_BRANCH" == "$PROD_BRANCH"'
+  - provider: script
+    script: ./bin/create-new-application-version.sh
+    skip_cleanup: true
+    on:
+      condition: '"$TRAVIS_BRANCH" == "$PROD_BRANCH"'
+notifications:
+  email: false
+  slack:
+    rooms:
+      - ifactor:a0jZh46mVsUKthYSdvt7bOM7#swift-alerts
