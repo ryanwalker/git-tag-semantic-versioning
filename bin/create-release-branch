@@ -2,39 +2,41 @@
 
 set -e
 
+message() {
+    echo "#############################################"
+    echo "#      $1"
+    echo "#############################################"
+}
+
 CURRENT_BRANCH=`git branch | grep \* | sed -E "s/\* //"`
+
 if [ "$CURRENT_BRANCH" != "develop" ]; then
-  echo "Must be on develop branch"
+  message "Must be on develop branch"
   exit 1;
 fi
+git pull
 
 CURRENT_RELEASE_BRANCH=`git branch --list "release-branch-*" | sort -r | sed -n '1 p'`
 CURRENT_RELEASE_BRANCH_NUMBER=`echo "$CURRENT_RELEASE_BRANCH" | sed -E "s/release-branch-([0-9]+)/\1/"`
-
 NEW_RELEASE_BRANCH_NUMBER=$((CURRENT_RELEASE_BRANCH_NUMBER+1))
 NEW_RELEASE_BRANCH="release-branch-$NEW_RELEASE_BRANCH_NUMBER"
 
 git checkout -b $NEW_RELEASE_BRANCH
 git push -u origin $NEW_RELEASE_BRANCH
+message "Release branch created: $NEW_RELEASE_BRANCH"
+
+travis env set QA_BRANCH $NEW_RELEASE_BRANCH
+message "Set Travis \$QA_BRANCH to $NEW_RELEASE_BRANCH"
 
 
-echo "#############################################"
-echo "Release branch created: $NEW_RELEASE_BRANCH"
-echo "#############################################"
-
-
-# Commit and bump version of develop
 git checkout develop
-NEW_VERSION=`./bin/next-version ALPHA MINOR`
-echo "New version will be $NEW_VERSION"
-echo "$NEW_VERSION" >> .tags
-
+CURRENT_DEVELOP_VERSION=`./bin/current-version`
+NEW_DEVELOP_VERSION=`./bin/next-version ALPHA MINOR`
+# Adding new commit to tag
+echo "$NEW_DEVELOP_VERSION" >> .tags
 git add .tags
-git commit -m "$NEW_VERSION"
-git tag -am $NEW_VERSION "${NEW_VERSION}"
+git commit -m "$NEW_DEVELOP_VERSION"
+git tag -am $NEW_DEVELOP_VERSION "$NEW_DEVELOP_VERSION"
 # git push
-# git push --tags
-#
-echo "#############################################"
-echo "develop branch now at version ${NEW_VERSION}"
-echo "#############################################"
+git push --tags
+message "Bumped version on develop from $CURRENT_DEVELOP_VERSION to $NEW_DEVELOP_VERSION"
