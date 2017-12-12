@@ -37,6 +37,5 @@ echo "$NEW_DEVELOP_VERSION" >> .tags
 git add .tags
 git commit -m "$NEW_DEVELOP_VERSION"
 git tag -am $NEW_DEVELOP_VERSION "$NEW_DEVELOP_VERSION"
-# git push
-git push --tags
+git push --tags origin develop
 message "Bumped version on develop from $CURRENT_DEVELOP_VERSION to $NEW_DEVELOP_VERSION"
