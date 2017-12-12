@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+message() {
+    echo "#############################################"
+    echo "# $1"
+    echo "#############################################"
+}
+# Promote release branch by changing env vars in travis
+#travis env set QA_BRANCH $NEW_RELEASE_BRANCH
+#message "Set Travis \$QA_BRANCH to $NEW_RELEASE_BRANCH"
