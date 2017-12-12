@@ -7,6 +7,15 @@ message() {
     echo "# $1"
     echo "#############################################"
 }
-# Promote release branch by changing env vars in travis
-#travis env set QA_BRANCH $NEW_RELEASE_BRANCH
-#message "Set Travis \$QA_BRANCH to $NEW_RELEASE_BRANCH"
+
+CANDIDATE_BRANCH="$1"
+FOUND_BRANCH=`git branch | grep -w "$1" | awk '{ print $1 }'`
+
+if [ "$FOUND_BRANCH" != "$CANDIDATE_BRANCH" ]
+then
+    message "Branch $CANDIDATE_BRANCH not found"
+    exit 1
+fi
+
+travis env set PROD_BRANCH $1
+message "Set Travis \$PROD_BRANCH to $CANDIDATE_BRANCH"
