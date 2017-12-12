@@ -2,10 +2,12 @@
 
 set -e
 
-# git checkout develop
-# git pull
+CURRENT_BRANCH=`git branch | grep \* | sed -E "s/\* //"`
+if [ "$CURRENT_BRANCH" != "develop" ]; then
+  echo "Must be on develop branch"
+  exit 1;
+fi
 
-# CURRENT_RELEASE_BRANCH_TAG=`git describe --match "release-branch-*"`
 CURRENT_RELEASE_BRANCH=`git branch --list "release-branch-*" | sort -r | sed -n '1 p'`
 CURRENT_RELEASE_BRANCH_NUMBER=`echo "$CURRENT_RELEASE_BRANCH" | sed -E "s/release-branch-([0-9]+)/\1/"`
 
@@ -13,13 +15,13 @@ NEW_RELEASE_BRANCH_NUMBER=$((CURRENT_RELEASE_BRANCH_NUMBER+1))
 NEW_RELEASE_BRANCH="release-branch-$NEW_RELEASE_BRANCH_NUMBER"
 
 git checkout -b $NEW_RELEASE_BRANCH
-# git push -u origin $NEW_RELEASE_BRANCH
-#
-#
+git push -u origin $NEW_RELEASE_BRANCH
+
+
 echo "#############################################"
-echo "Release branch created: $RELEASE_BRANCH"
+echo "Release branch created: $NEW_RELEASE_BRANCH"
 echo "#############################################"
-#
+
 
 # Commit and bump version of develop
 git checkout develop
